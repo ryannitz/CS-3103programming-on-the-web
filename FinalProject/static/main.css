@@ -1,0 +1,83 @@
+ul{
+    margin: 0!important;
+    padding: 0!important;
+    text-decoration: none;
+    list-style-type: none;
+    list-style: none;
+}
+
+
+.left-col{
+    position: fixed;
+    min-width: 200px;
+    width:15%;
+    min-height: 100%!important;
+}
+
+.main-col{
+    left:150px;
+    margin-left:15%;
+    width: 85%;
+}
+
+.ml200{
+    margin-left: 200px!important;
+}
+
+#searchUser{
+    width: 100% !important;
+}
+
+#userListContainer{
+    overflow-y: scroll;
+}
+
+#userList li:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.list-item:hover{
+    cursor: pointer;
+    box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;
+}
+
+.list-item:hover .icon-control{
+    opacity: 1;
+}
+
+.present-list-name{
+    margin: 0!important;
+    line-height: 90%;
+}
+
+.icon-presentlist{
+    line-height: 130%;
+}
+
+.icon-present{
+    line-height: 200%;
+}
+
+.icon-control{
+    font-size: 150%;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+
+
+.content-header{
+    top: 57px;
+    position: sticky;
+    background-color: white;
+}
+
+.content-nav{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.reload{
+    cursor: pointer;
+}

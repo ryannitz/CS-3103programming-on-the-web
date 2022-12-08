@@ -1,0 +1,757 @@
+---
+openapi: 3.0.0
+info:
+  title: Swagger As5
+  description: API for CS3103 final project
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: rnitz@unb.ca
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/ryannitz/As5/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: https://cs3103.cs.unb.ca/rnitz/
+  description: Server for cs3103
+tags:
+- name: present
+  description: Presents that a user can add/edit/remove from their lists.
+- name: presentlist
+  description: Present lists
+- name: user
+  description: User operations
+paths:
+  /present:
+    put:
+      tags:
+      - present
+      summary: Update an existing present
+      operationId: updatePresent
+      requestBody:
+        $ref: '#/components/requestBodies/Present'
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Present not found
+        "405":
+          description: Validation exception
+      security:
+      - present_auth:
+        - write:present
+        - read:present
+    post:
+      tags:
+      - present
+      summary: Add a new present to a list
+      operationId: createPresent
+      requestBody:
+        $ref: '#/components/requestBodies/Present'
+      responses:
+        "405":
+          description: Invalid input
+      security:
+      - present_auth:
+        - write:present
+        - read:present
+  /present/getPresentsByPresentList:
+    get:
+      tags:
+      - present
+      summary: Finds Pets by status
+      description: User must be logged in to make this call
+      operationId: getPresentsByPresentList
+      parameters:
+      - name: presentListId
+        in: query
+        description: The id of the present list
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Present'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Present'
+        "400":
+          description: Invalid status value
+      security:
+      - present_auth:
+        - write:present
+        - read:present
+  /present/getPresentsByUserId:
+    get:
+      tags:
+      - present
+      summary: Finds Presents by user id
+      description: User must be logged in to make this call
+      operationId: getPresentsByUserId
+      parameters:
+      - name: id
+        in: query
+        description: The id of the user
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Present'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Present'
+        "400":
+          description: Invalid status value
+      security:
+      - present_auth:
+        - write:present
+        - read:present
+  /present/getPresentsByUserEmail:
+    get:
+      tags:
+      - present
+      summary: Finds Presents by user email
+      description: User must be logged in to make this call
+      operationId: getPresentsByUserEmail
+      parameters:
+      - name: email
+        in: query
+        description: The email of the user
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Present'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Present'
+        "400":
+          description: Invalid status value
+      security:
+      - present_auth:
+        - write:present
+        - read:present
+  /present/{id}:
+    get:
+      tags:
+      - present
+      summary: Get present by id
+      description: Returns a single present
+      operationId: getPresentById
+      parameters:
+      - name: id
+        in: path
+        description: ID of present to return
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Present'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Present'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Present not found
+    post:
+      tags:
+      - present
+      summary: Updates a present with a given id
+      operationId: updatePresentWithForm
+      parameters:
+      - name: id
+        in: path
+        description: ID of present that needs to be updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/body'
+      responses:
+        "405":
+          description: Invalid input
+      security:
+      - present_auth:
+        - write:present
+        - read:present
+    delete:
+      tags:
+      - present
+      summary: Deletes a present
+      operationId: deletePresent
+      parameters:
+      - name: id
+        in: path
+        description: Present id to delete
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Present not found
+      security:
+      - present_auth:
+        - write:present
+        - read:present
+  /presentlist:
+    post:
+      tags:
+      - presentlist
+      summary: Place an order for a pet
+      operationId: createPresentList
+      requestBody:
+        description: Present list created.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresentList'
+        required: true
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresentList'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/PresentList'
+        "400":
+          description: Invalid Present List.
+  /presentlist/getPresentListByUserId:
+    get:
+      tags:
+      - presentlist
+      summary: Retrieve all present lists for a user by id
+      description: This can only be done with a logged in user
+      operationId: getPresentListByUserId
+      parameters:
+      - name: id
+        in: query
+        description: The id of the user
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PresentList'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PresentList'
+        "400":
+          description: Invalid status value
+      security:
+      - presentlist_auth:
+        - write:presentlist
+        - read:presentlist
+  /presentlist/getPresentListByUserEmail:
+    get:
+      tags:
+      - presentlist
+      summary: Retrieve all present lists for a user
+      description: This can only be done with a logged in user by email
+      operationId: getPresentListByUserEmail
+      parameters:
+      - name: email
+        in: query
+        description: The email of the user
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PresentList'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PresentList'
+        "400":
+          description: Invalid status value
+      security:
+      - presentlist_auth:
+        - write:presentlist
+        - read:presentlist
+  /presentlist/{id}:
+    get:
+      tags:
+      - presentlist
+      summary: Get presentlist by id
+      description: Return a presentlist given its id
+      operationId: getPresentListById
+      parameters:
+      - name: id
+        in: path
+        description: ID of the present list
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 10
+          minimum: 1
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresentList'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/PresentList'
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Present list not found
+    put:
+      tags:
+      - presentlist
+      summary: Updated Present List
+      description: This can only be done by the logged in user.
+      operationId: updatePresentList
+      parameters:
+      - name: id
+        in: path
+        description: presentlist that need to be updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Updated present list object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PresentList'
+        required: true
+      responses:
+        "400":
+          description: Invalid present list supplied
+        "404":
+          description: Present list not found
+    delete:
+      tags:
+      - presentlist
+      summary: Delete present list by id
+      description: Delete the present list given the id
+      operationId: deletePresentList
+      parameters:
+      - name: id
+        in: path
+        description: ID of the present list that needs to be deleted
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minimum: 1
+          type: integer
+          format: int64
+      responses:
+        "400":
+          description: Invalid ID supplied
+        "404":
+          description: Present list not found
+  /user:
+    post:
+      tags:
+      - user
+      summary: Create user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      requestBody:
+        description: Create user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+        required: true
+      responses:
+        default:
+          description: successful operation
+      security:
+      - user_auth:
+        - write:user
+        - read:user
+  /user/login:
+    get:
+      tags:
+      - user
+      summary: Logs user into the system
+      operationId: loginUser
+      parameters:
+      - name: email
+        in: query
+        description: The user name for login
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: password
+        in: query
+        description: The password for login in clear text
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              style: simple
+              explode: false
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/json:
+              schema:
+                type: string
+            application/xml:
+              schema:
+                type: string
+        "400":
+          description: Invalid username/password supplied
+      security:
+      - user_auth:
+        - write:user
+        - read:user
+  /user/logout:
+    get:
+      tags:
+      - user
+      summary: Logs out current logged in user session
+      operationId: logoutUser
+      responses:
+        default:
+          description: successful operation
+      security:
+      - user_auth:
+        - write:user
+        - read:user
+  /user/{email}:
+    get:
+      tags:
+      - user
+      summary: Get user by user name
+      operationId: getUserByEmail
+      parameters:
+      - name: email
+        in: path
+        description: The email that needs to be fetched.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Invalid email supplied
+        "404":
+          description: User not found
+      security:
+      - user_auth:
+        - write:user
+        - read:user
+    put:
+      tags:
+      - user
+      summary: Update user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+      - name: email
+        in: path
+        description: email of the user being updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Updated user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "400":
+          description: Invalid user supplied
+        "404":
+          description: User not found
+      security:
+      - user_auth:
+        - write:user
+        - read:user
+    delete:
+      tags:
+      - user
+      summary: Delete user
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+      - name: email
+        in: path
+        description: The email that needs to be deleted
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "400":
+          description: Invalid email supplied
+        "404":
+          description: User not found
+      security:
+      - user_auth:
+        - write:user
+        - read:user
+components:
+  schemas:
+    PresentList:
+      type: object
+      properties:
+        presentListId:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        presentListDesc:
+          type: string
+          description: Description of present list
+        presentListName:
+          type: string
+          format: Name of present list
+        creationDate:
+          type: integer
+          description: int64
+        modificationDate:
+          type: integer
+          description: int64
+      xml:
+        name: presentlist
+    User:
+      type: object
+      properties:
+        userId:
+          type: integer
+          format: int64
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        status:
+          type: integer
+          description: Active or Inactive
+          format: int32
+        creationDate:
+          type: integer
+          format: int64
+        modificationDate:
+          type: integer
+          format: int64
+      xml:
+        name: User
+    Present:
+      required:
+      - name
+      type: object
+      properties:
+        presentId:
+          type: integer
+          format: int64
+        presentName:
+          type: string
+        presentDesc:
+          type: string
+        presentPrice:
+          type: string
+        creationDate:
+          type: integer
+          format: int64
+        modificationDate:
+          type: integer
+          format: int64
+        presentListId:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+      xml:
+        name: present
+    CreateUser:
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+    body:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Updated name of the present
+        status:
+          type: string
+          description: Updated status of the present
+  requestBodies:
+    Present:
+      description: Present object
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Present'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/Present'
+      required: true
+    PresentListArray:
+      description: List of PresentList object
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/PresentList'
+      required: true
+    CreateUser:
+      content:
+        application/json:
+          schema:
+            properties:
+              email:
+                type: string
+        application/xml:
+          schema:
+            properties:
+              email:
+                type: string
+      required: true
+  securitySchemes:
+    present_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:present: CRUD presents
+            read:present: read your presents
+    presentlist_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:presentlist: modify presentlist in your account
+            read:presentlist: read your presentlist
+    user_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://petstore.swagger.io/oauth/dialog
+          scopes:
+            write:user: modify and create users
+            read:user: read your user

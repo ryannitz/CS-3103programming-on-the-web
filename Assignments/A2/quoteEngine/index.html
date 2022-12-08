@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="pepe.png"/>
+        <!--FontAwesome-->
+        <script src="https://kit.fontawesome.com/adc1711e54.js" crossorigin="anonymous"></script>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+        <title>Quote engine</title>
+        <script>
+            $(document).ready(function(){
+                $('[data-toggle="tooltip"]').tooltip();
+
+                var getQuoteUrl = "cgi-bin/getQuote.py";
+                $("#getQuote").click(function(){
+                    $.get(getSchoolsUrl, function(data, status){
+                        $("#quote").append(data);
+                    });
+                })
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container mt-2">
+            <h1 class="display-4 text-center">Quote Engine</h1>
+            <hr>
+            <button id="getQuote" type="button" class="btn btn-primary">Get Random Quote</button>
+            <div>
+                <p id="quote"></p>
+            </div>
+
+            <form action="cgi-bin/addQuote.py">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="quoteValue" maxlength="255" minlength="3" required>
+                    <div class="input-group-append">
+                      <button class="btn btn-success" type="submit">Add quote!</button>
+                    </div>
+                  </div>
+            </form>
+        </div>
+    </body>
+</html>

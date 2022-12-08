@@ -1,0 +1,8 @@
+#ldapContainer{
+    margin-top:15%;
+}
+
+#showPassword:hover{
+    cursor: pointer;
+    color: #212529!important;
+}

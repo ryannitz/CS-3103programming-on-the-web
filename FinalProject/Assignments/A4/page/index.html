@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="icon" href="pepe.png"/> -->
+    <!--FontAwesome-->
+    <script src="https://kit.fontawesome.com/adc1711e54.js" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>Ryan Nitz</title>
+    <link rel="stylesheet" href="main.css"/>
+    <script type="text/javascript" src="main.js"></script>
+  </head>
+  <body>
+    <div class="modal fade" id="addSchoolModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="addSchoolForm">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add School to Directory</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+      
+                    <div class="modal-body">
+                    
+                        <div class="form-group">
+                            <label for="name">School Name:</label>
+                            <input class="form-control" id="schoolName" type="text" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="province">Province:</label>
+                            <select class="form-control" id="province" name="province" required>
+                                <option value="AB">Alberta</option>
+                                <option value="BC">British-Columbia</option>
+                                <option value="MB">Manitoba</option>
+                                <option value="NB">New-Brunswick</option>
+                                <option value="NL">Newfoundland and Labrador</option>
+                                <option value="NS">Nova Scotia</option>
+                                <option value="ON">Ontario</option>
+                                <option value="PE">P.E.I</option>
+                                <option value="QC">Quebec</option>
+                                <option value="SK">Saskatchewan</option>
+                                <option value="NT">N.W.T</option>
+                                <option value="NU">Nunavut</option>
+                                <option value="YT">Yukon</option>
+                                <option value="MAINE">MAINE</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="language">Language:</label>
+                            <select class="form-control" id="lang" name="language" required>
+                                <option value="en">EN</option>
+                                <option value="fr">FR</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="level">Level:</label>
+                            <select class="form-control" id="level" name="level" required>
+                                <option value="elem">Elementary</option>
+                                <option value="middle">Middle-High</option>
+                                <option value="high">High-School</option>
+                                <option value="post">Post-Secondary</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button id="addSchool" type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+      </div>
+      <div class="modal fade" id="delSchoolModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirm Delete</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+      
+                <div id="delSchoolModalBody" class="modal-body">
+                    <p>Are you sure you would like to delete this school?</p>
+                </div>
+      
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="delSchool" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    <header class="sticky-top">
+        <nav id="layout-nav" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
+            <div class="container">
+                <div class="nav-item">
+                    <a class="navbar-brand nav-link nav-direct" href="#" data-toggle="tooltip" title="Home">
+                        <i class="fas fa-list"></i>
+                        <span class="respToggleNavBrand"> School Directory</span>
+                    </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div id="layout-navitems" class="navbar-collapse collapse d-sm-inline-flex">
+                    <ul class="navbar-nav mr-auto">
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li id="toggleJumbo" class="nav-item">
+                            <button type="button" class="btn btn-primary mr-3" data-toggle="modal" data-target="#addSchoolModal"><i class="fas fa-plus"></i> Add School</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container clearfix mt-5">
+        <form id ="headerform" class="form-inline float-left">
+            <div class="form-group">
+                <label for="listProvicne">Search by province:</label>
+                <select class="form-control ml-3" id="listProvince" name="prov" required>
+                    <option value="ALL"></option>
+                    <option value="AB">Alberta</option>
+                    <option value="BC">British-Columbia</option>
+                    <option value="MB">Manitoba</option>
+                    <option value="NB">New-Brunswick</option>
+                    <option value="NL">Newfoundland and Labrador</option>
+                    <option value="NS">Nova Scotia</option>
+                    <option value="ON">Ontario</option>
+                    <option value="PEI">P.E.I</option>
+                    <option value="QC">Quebec</option>
+                    <option value="SK">Saskatchewan</option>
+                    <option value="NT">N.W.T</option>
+                    <option value="NU">Nunavut</option>
+                    <option value="YT">Yukon</option>
+                    <option value="MAINE">MAINE</option>
+                </select>
+            </div>
+        </form>
+        <form id="delSchoolForm" class="form-inline float-right">
+            <div class="input-group mb-3">
+                <label for="delSchoolId" class="mr-3">ID:</label>
+                <input id="delSchoolId" type="number" min=0 class="form-control" required>
+                <div class="input-group-append">
+                  <button id="delSchoolButton" class="btn btn-danger disabled" type="button"><i class="far fa-trash-alt"></i> Delete School</button>
+                </div>
+              </div>
+        </form>
+    </div>
+    <div class="container mt-2">
+        <table id="schoolTable" class="table">
+            <thead>
+                <tr>
+                    <th>School Id</th>
+                    <th>School name</th>
+                    <th>School province</th>
+                    <th>School language</th>
+                    <th>School level</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+  </body>
+</html>

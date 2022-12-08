@@ -1,0 +1,8 @@
+DELIMITER //
+DROP PROCEDURE IF EXISTS delSchool //
+
+CREATE PROCEDURE delSchool(IN schoolIdIn INT)
+BEGIN
+  DELETE FROM schools WHERE schoolId=schoolIdIn;
+END //
+DELIMITER ;
